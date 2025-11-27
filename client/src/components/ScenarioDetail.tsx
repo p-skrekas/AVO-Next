@@ -7,7 +7,8 @@ import { Button } from '@/components/ui/button';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { ArrowLeft, Upload, Save, Play, Plus, Trash2, ChevronsUpDown, Check, Mic, Square, Pause, PlayCircle, CheckCircle, Pencil, Copy, Eye, Loader2, Volume2, Layers, RotateCcw, FolderUp } from 'lucide-react';
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
+import { ArrowLeft, Upload, Save, Play, Plus, Trash2, ChevronsUpDown, Check, Mic, Square, Pause, PlayCircle, CheckCircle, Pencil, Copy, Eye, Loader2, Volume2, Layers, RotateCcw, FolderUp, HelpCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useVoiceRecorder } from '@/hooks/useVoiceRecorder';
 import Plot from 'react-plotly.js';
@@ -78,9 +79,75 @@ function calculateModelResultCost(result: ModelExecutionResult | undefined, mode
   return calculateCost(result.input_tokens, result.output_tokens, modelName);
 }
 
-// Compare cart items directly by product_id and quantity
+// Compare cart items directly by product_id, quantity, and unit
 function cartItemsMatch(gt: CartItem, pred: CartItem): boolean {
-  return gt.product_id === pred.product_id && gt.quantity === pred.quantity;
+  return gt.product_id === pred.product_id &&
+         gt.quantity === pred.quantity &&
+         gt.unit === pred.unit;
+}
+
+// Detailed mismatch types
+type MismatchType = 'exact_match' | 'quantity_mismatch' | 'unit_mismatch' | 'quantity_and_unit_mismatch' | 'extra_item' | 'missing_item';
+
+interface MismatchDetail {
+  type: MismatchType;
+  productId: string;
+  expectedQuantity?: number;
+  actualQuantity?: number;
+  expectedUnit?: string;
+  actualUnit?: string;
+}
+
+// Find what type of mismatch exists for a predicted item
+function getMismatchDetail(pred: CartItem, groundTruth: CartItem[]): MismatchDetail {
+  const matchingProduct = groundTruth.find(gt => gt.product_id === pred.product_id);
+
+  if (!matchingProduct) {
+    return { type: 'extra_item', productId: pred.product_id };
+  }
+
+  const quantityMatches = matchingProduct.quantity === pred.quantity;
+  const unitMatches = matchingProduct.unit === pred.unit;
+
+  if (quantityMatches && unitMatches) {
+    return { type: 'exact_match', productId: pred.product_id };
+  }
+
+  if (!quantityMatches && !unitMatches) {
+    return {
+      type: 'quantity_and_unit_mismatch',
+      productId: pred.product_id,
+      expectedQuantity: matchingProduct.quantity,
+      actualQuantity: pred.quantity,
+      expectedUnit: matchingProduct.unit,
+      actualUnit: pred.unit
+    };
+  }
+
+  if (!quantityMatches) {
+    return {
+      type: 'quantity_mismatch',
+      productId: pred.product_id,
+      expectedQuantity: matchingProduct.quantity,
+      actualQuantity: pred.quantity,
+      expectedUnit: matchingProduct.unit,
+      actualUnit: pred.unit
+    };
+  }
+
+  return {
+    type: 'unit_mismatch',
+    productId: pred.product_id,
+    expectedQuantity: matchingProduct.quantity,
+    actualQuantity: pred.quantity,
+    expectedUnit: matchingProduct.unit,
+    actualUnit: pred.unit
+  };
+}
+
+// Get missing items from ground truth that are not in predictions
+function getMissingItems(groundTruth: CartItem[], predictions: CartItem[]): CartItem[] {
+  return groundTruth.filter(gt => !predictions.some(pred => pred.product_id === gt.product_id));
 }
 
 export default function ScenarioDetail({ scenario, onBack, onUpdate }: ScenarioDetailProps) {
@@ -1255,10 +1322,102 @@ export default function ScenarioDetail({ scenario, onBack, onUpdate }: ScenarioD
                     <thead>
                       <tr className="border-b border-[#2a2a2e]">
                         <th className="text-left py-3 px-4 text-sm font-medium text-[#a1a1aa]">Model</th>
-                        <th className="text-right py-3 px-4 text-sm font-medium text-[#a1a1aa]">Avg Precision</th>
-                        <th className="text-right py-3 px-4 text-sm font-medium text-[#a1a1aa]">Avg Recall</th>
-                        <th className="text-right py-3 px-4 text-sm font-medium text-[#a1a1aa]">Avg F1</th>
-                        <th className="text-right py-3 px-4 text-sm font-medium text-[#a1a1aa]">Exact Matches</th>
+                        <th className="text-right py-3 px-4 text-sm font-medium text-[#a1a1aa]">
+                          <HoverCard openDelay={200}>
+                            <HoverCardTrigger asChild>
+                              <span className="inline-flex items-center gap-1 cursor-help">
+                                Avg Precision
+                                <HelpCircle className="w-3.5 h-3.5 text-[#71717a]" />
+                              </span>
+                            </HoverCardTrigger>
+                            <HoverCardContent className="w-80 bg-[#1a1a1d] border-[#2a2a2e] text-[#a1a1aa]" side="bottom">
+                              <div className="space-y-2">
+                                <h4 className="font-semibold text-[#fafafa]">Precision</h4>
+                                <p className="text-sm">
+                                  Measures the accuracy of the model's predictions. It answers: <em>"Of all items the model predicted, how many were correct?"</em>
+                                </p>
+                                <div className="bg-[#121214] rounded p-2 text-xs font-mono">
+                                  Precision = Correct Items / Total Predicted Items
+                                </div>
+                                <p className="text-xs text-[#71717a]">
+                                  High precision means fewer false positives (extra items in the cart that shouldn't be there).
+                                </p>
+                              </div>
+                            </HoverCardContent>
+                          </HoverCard>
+                        </th>
+                        <th className="text-right py-3 px-4 text-sm font-medium text-[#a1a1aa]">
+                          <HoverCard openDelay={200}>
+                            <HoverCardTrigger asChild>
+                              <span className="inline-flex items-center gap-1 cursor-help">
+                                Avg Recall
+                                <HelpCircle className="w-3.5 h-3.5 text-[#71717a]" />
+                              </span>
+                            </HoverCardTrigger>
+                            <HoverCardContent className="w-80 bg-[#1a1a1d] border-[#2a2a2e] text-[#a1a1aa]" side="bottom">
+                              <div className="space-y-2">
+                                <h4 className="font-semibold text-[#fafafa]">Recall</h4>
+                                <p className="text-sm">
+                                  Measures completeness. It answers: <em>"Of all items that should be in the cart, how many did the model find?"</em>
+                                </p>
+                                <div className="bg-[#121214] rounded p-2 text-xs font-mono">
+                                  Recall = Correct Items / Total Ground Truth Items
+                                </div>
+                                <p className="text-xs text-[#71717a]">
+                                  High recall means fewer false negatives (missing items that should be in the cart).
+                                </p>
+                              </div>
+                            </HoverCardContent>
+                          </HoverCard>
+                        </th>
+                        <th className="text-right py-3 px-4 text-sm font-medium text-[#a1a1aa]">
+                          <HoverCard openDelay={200}>
+                            <HoverCardTrigger asChild>
+                              <span className="inline-flex items-center gap-1 cursor-help">
+                                Avg F1
+                                <HelpCircle className="w-3.5 h-3.5 text-[#71717a]" />
+                              </span>
+                            </HoverCardTrigger>
+                            <HoverCardContent className="w-80 bg-[#1a1a1d] border-[#2a2a2e] text-[#a1a1aa]" side="bottom">
+                              <div className="space-y-2">
+                                <h4 className="font-semibold text-[#fafafa]">F1 Score</h4>
+                                <p className="text-sm">
+                                  The harmonic mean of Precision and Recall. It provides a single balanced metric that considers both false positives and false negatives.
+                                </p>
+                                <div className="bg-[#121214] rounded p-2 text-xs font-mono">
+                                  F1 = 2 × (Precision × Recall) / (Precision + Recall)
+                                </div>
+                                <p className="text-xs text-[#71717a]">
+                                  F1 is useful when you need a balance between precision and recall. A high F1 score indicates both low false positives and low false negatives.
+                                </p>
+                              </div>
+                            </HoverCardContent>
+                          </HoverCard>
+                        </th>
+                        <th className="text-right py-3 px-4 text-sm font-medium text-[#a1a1aa]">
+                          <HoverCard openDelay={200}>
+                            <HoverCardTrigger asChild>
+                              <span className="inline-flex items-center gap-1 cursor-help">
+                                Exact Matches
+                                <HelpCircle className="w-3.5 h-3.5 text-[#71717a]" />
+                              </span>
+                            </HoverCardTrigger>
+                            <HoverCardContent className="w-80 bg-[#1a1a1d] border-[#2a2a2e] text-[#a1a1aa]" side="bottom">
+                              <div className="space-y-2">
+                                <h4 className="font-semibold text-[#fafafa]">Exact Matches</h4>
+                                <p className="text-sm">
+                                  Counts steps where the predicted cart <strong>exactly matches</strong> the ground truth cart - same products, same quantities, same units.
+                                </p>
+                                <div className="bg-[#121214] rounded p-2 text-xs font-mono">
+                                  Exact Match Rate = Exact Matches / Total Steps
+                                </div>
+                                <p className="text-xs text-[#71717a]">
+                                  This is the strictest metric. Even one wrong quantity or missing item means the step is not an exact match.
+                                </p>
+                              </div>
+                            </HoverCardContent>
+                          </HoverCard>
+                        </th>
                         <th className="text-right py-3 px-4 text-sm font-medium text-[#a1a1aa]">Total Latency</th>
                         <th className="text-right py-3 px-4 text-sm font-medium text-[#a1a1aa]">Total Cost</th>
                       </tr>
@@ -1666,32 +1825,107 @@ export default function ScenarioDetail({ scenario, onBack, onUpdate }: ScenarioD
                             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
                               {result.predicted_cart && result.predicted_cart.length > 0 ? (
                                 result.predicted_cart.map((item, idx) => {
-                                  const isCorrect = step.ground_truth_cart?.some(gt => cartItemsMatch(gt, item));
+                                  const mismatchDetail = getMismatchDetail(item, step.ground_truth_cart || []);
+                                  const isCorrect = mismatchDetail.type === 'exact_match';
+                                  const isPartialMatch = mismatchDetail.type === 'quantity_mismatch' ||
+                                                         mismatchDetail.type === 'unit_mismatch' ||
+                                                         mismatchDetail.type === 'quantity_and_unit_mismatch';
+
+                                  // Color scheme based on mismatch type
+                                  const getBgColor = () => {
+                                    if (isCorrect) return 'bg-green-500/10 border-green-500/30';
+                                    if (isPartialMatch) return 'bg-amber-500/10 border-amber-500/30';
+                                    return 'bg-red-500/10 border-red-500/30'; // extra_item
+                                  };
+
+                                  const getIdBadgeColor = () => {
+                                    if (isCorrect) return 'bg-green-500/20 text-green-400';
+                                    if (isPartialMatch) return 'bg-amber-500/20 text-amber-400';
+                                    return 'bg-red-500/20 text-red-400';
+                                  };
+
+                                  const getTextColor = () => {
+                                    if (isCorrect) return 'text-green-200';
+                                    if (isPartialMatch) return 'text-amber-200';
+                                    return 'text-red-200';
+                                  };
+
+                                  const getLabelColor = () => {
+                                    if (isCorrect) return 'text-green-400/70';
+                                    if (isPartialMatch) return 'text-amber-400/70';
+                                    return 'text-red-400/70';
+                                  };
+
+                                  const getValueColor = () => {
+                                    if (isCorrect) return 'text-green-300';
+                                    if (isPartialMatch) return 'text-amber-300';
+                                    return 'text-red-300';
+                                  };
+
+                                  // Mismatch badge text
+                                  const getMismatchBadge = () => {
+                                    switch (mismatchDetail.type) {
+                                      case 'quantity_mismatch':
+                                        return 'Qty';
+                                      case 'unit_mismatch':
+                                        return 'Unit';
+                                      case 'quantity_and_unit_mismatch':
+                                        return 'Qty+Unit';
+                                      case 'extra_item':
+                                        return 'Extra';
+                                      default:
+                                        return null;
+                                    }
+                                  };
+
                                   return (
                                     <div
                                       key={idx}
-                                      className={`p-2.5 rounded-lg border text-xs ${
-                                        isCorrect
-                                          ? 'bg-green-500/10 border-green-500/30'
-                                          : 'bg-red-500/10 border-red-500/30'
-                                      }`}
+                                      className={`p-2.5 rounded-lg border text-xs ${getBgColor()}`}
                                     >
                                       <div className="flex items-start justify-between gap-1 mb-1">
-                                        <span className={`font-mono text-[10px] px-1 py-0.5 rounded ${
-                                          isCorrect ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'
-                                        }`}>
+                                        <span className={`font-mono text-[10px] px-1 py-0.5 rounded ${getIdBadgeColor()}`}>
                                           #{item.product_id}
                                         </span>
-                                        {isCorrect && <Check className="w-3 h-3 text-green-400 flex-shrink-0" />}
+                                        <div className="flex items-center gap-1">
+                                          {getMismatchBadge() && (
+                                            <span className={`text-[9px] px-1.5 py-0.5 rounded font-medium ${
+                                              mismatchDetail.type === 'extra_item'
+                                                ? 'bg-red-500/30 text-red-300'
+                                                : 'bg-amber-500/30 text-amber-300'
+                                            }`}>
+                                              {getMismatchBadge()}
+                                            </span>
+                                          )}
+                                          {isCorrect && <Check className="w-3 h-3 text-green-400 flex-shrink-0" />}
+                                        </div>
                                       </div>
-                                      <div className={`font-medium leading-tight line-clamp-2 mb-1.5 ${
-                                        isCorrect ? 'text-green-200' : 'text-red-200'
-                                      }`}>
+                                      <div className={`font-medium leading-tight line-clamp-2 mb-1.5 ${getTextColor()}`}>
                                         {getProductName(item.product_id, item.product_name)}
                                       </div>
-                                      <div className="flex items-center gap-2">
-                                        <span><span className={isCorrect ? 'text-green-400/70' : 'text-red-400/70'}>Qty:</span> <span className={`font-semibold ${isCorrect ? 'text-green-300' : 'text-red-300'}`}>{item.quantity}</span></span>
-                                        <span><span className={isCorrect ? 'text-green-400/70' : 'text-red-400/70'}>Unit:</span> <span className={`font-semibold ${isCorrect ? 'text-green-300' : 'text-red-300'}`}>{item.unit}</span></span>
+                                      <div className="flex flex-col gap-0.5">
+                                        <div className="flex items-center gap-1">
+                                          <span className={getLabelColor()}>Qty:</span>
+                                          <span className={`font-semibold ${
+                                            mismatchDetail.type === 'quantity_mismatch' || mismatchDetail.type === 'quantity_and_unit_mismatch'
+                                              ? 'text-amber-300 line-through'
+                                              : getValueColor()
+                                          }`}>{item.quantity}</span>
+                                          {(mismatchDetail.type === 'quantity_mismatch' || mismatchDetail.type === 'quantity_and_unit_mismatch') && (
+                                            <span className="text-green-400 font-semibold">→{mismatchDetail.expectedQuantity}</span>
+                                          )}
+                                        </div>
+                                        <div className="flex items-center gap-1">
+                                          <span className={getLabelColor()}>Unit:</span>
+                                          <span className={`font-semibold ${
+                                            mismatchDetail.type === 'unit_mismatch' || mismatchDetail.type === 'quantity_and_unit_mismatch'
+                                              ? 'text-amber-300 line-through'
+                                              : getValueColor()
+                                          }`}>{item.unit}</span>
+                                          {(mismatchDetail.type === 'unit_mismatch' || mismatchDetail.type === 'quantity_and_unit_mismatch') && (
+                                            <span className="text-green-400 font-semibold">→{mismatchDetail.expectedUnit}</span>
+                                          )}
+                                        </div>
                                       </div>
                                     </div>
                                   );
@@ -1700,6 +1934,44 @@ export default function ScenarioDetail({ scenario, onBack, onUpdate }: ScenarioD
                                 <p className="text-sm text-[#52525b] text-center py-4 col-span-full">Empty cart</p>
                               )}
                             </div>
+
+                            {/* Missing Items Section */}
+                            {(() => {
+                              const missingItems = getMissingItems(step.ground_truth_cart || [], result.predicted_cart || []);
+                              if (missingItems.length === 0) return null;
+
+                              return (
+                                <div className="mt-3 pt-3 border-t border-[#2a2a2e]">
+                                  <div className="flex items-center gap-2 mb-2">
+                                    <span className="text-xs font-medium text-red-400">Missing Items ({missingItems.length})</span>
+                                  </div>
+                                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
+                                    {missingItems.map((item, idx) => (
+                                      <div
+                                        key={idx}
+                                        className="p-2.5 rounded-lg border text-xs bg-red-500/5 border-red-500/20 border-dashed"
+                                      >
+                                        <div className="flex items-start justify-between gap-1 mb-1">
+                                          <span className="font-mono text-[10px] px-1 py-0.5 rounded bg-red-500/20 text-red-400">
+                                            #{item.product_id}
+                                          </span>
+                                          <span className="text-[9px] px-1.5 py-0.5 rounded font-medium bg-red-500/30 text-red-300">
+                                            Missing
+                                          </span>
+                                        </div>
+                                        <div className="font-medium leading-tight line-clamp-2 mb-1.5 text-red-200/70">
+                                          {getProductName(item.product_id, item.product_name)}
+                                        </div>
+                                        <div className="flex flex-col gap-0.5 text-red-400/70">
+                                          <span>Qty: <span className="font-semibold text-red-300/70">{item.quantity}</span></span>
+                                          <span>Unit: <span className="font-semibold text-red-300/70">{item.unit}</span></span>
+                                        </div>
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                              );
+                            })()}
                           </div>
                         );
                       })}
