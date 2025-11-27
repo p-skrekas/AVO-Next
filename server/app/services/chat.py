@@ -213,7 +213,8 @@ class ChatService:
         for attempt in range(MAX_RETRIES):
             try:
                 start_time = time.time()
-                response = chat.send_message(audio_part)
+                # Run the blocking Vertex AI call in a thread pool to allow true parallel execution
+                response = await asyncio.to_thread(chat.send_message, audio_part)
                 end_time = time.time()
                 latency_ms = int((end_time - start_time) * 1000)
 
@@ -281,7 +282,8 @@ class ChatService:
         for attempt in range(MAX_RETRIES):
             try:
                 start_time = time.time()
-                response = chat.send_message(message)
+                # Run the blocking Vertex AI call in a thread pool to allow true parallel execution
+                response = await asyncio.to_thread(chat.send_message, message)
                 end_time = time.time()
                 latency_ms = int((end_time - start_time) * 1000)
 
