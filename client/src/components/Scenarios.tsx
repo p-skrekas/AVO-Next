@@ -3,7 +3,7 @@ import { scenarioAPI } from '@/lib/scenario-api';
 import type { Scenario, ExecutionStatusInfo, QueuedScenario } from '@/lib/scenario-types';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Plus, Trash2, Pencil, Save, Loader2, Copy, FileText, Calendar, Layers, Package, Play, CheckSquare, Square, PlayCircle, XCircle, ListOrdered, ChevronUp, ChevronDown, X, StopCircle } from 'lucide-react';
+import { Plus, Trash2, Pencil, Save, Loader2, Copy, FileText, Calendar, Layers, Package, Play, CheckSquare, Square, PlayCircle, XCircle, ListOrdered, ChevronUp, ChevronDown, X, StopCircle, CheckCircle2 } from 'lucide-react';
 import { toast } from 'sonner';
 import CreateScenarioDialog from './CreateScenarioDialog';
 import ScenarioDetail from './ScenarioDetail';
@@ -621,6 +621,11 @@ export default function Scenarios() {
               });
               const uniqueProductCount = uniqueProductIds.size;
 
+              // Check if scenario has been executed (has model_results)
+              const hasBeenExecuted = scenario.steps.some(step =>
+                step.model_results && Object.keys(step.model_results).length > 0
+              );
+
               return (
               <div
                 key={scenario.scenario_id}
@@ -664,16 +669,27 @@ export default function Scenarios() {
                     <div className={`flex-shrink-0 w-10 h-10 rounded-xl border flex items-center justify-center ${
                       isExecuting
                         ? 'bg-blue-500/20 border-blue-500/30'
+                        : hasBeenExecuted
+                        ? 'bg-emerald-500/20 border-emerald-500/30'
                         : 'bg-gradient-to-br from-indigo-500/20 to-purple-500/20 border-indigo-500/20'
                     }`}>
                       {isExecuting ? (
                         <Loader2 className="w-5 h-5 text-blue-400 animate-spin" />
+                      ) : hasBeenExecuted ? (
+                        <CheckCircle2 className="w-5 h-5 text-emerald-400" />
                       ) : (
                         <FileText className="w-5 h-5 text-indigo-400" />
                       )}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h3 className="text-lg font-semibold text-[#fafafa] truncate leading-tight">{scenario.name}</h3>
+                      <div className="flex items-center gap-2">
+                        <h3 className="text-lg font-semibold text-[#fafafa] truncate leading-tight">{scenario.name}</h3>
+                        {hasBeenExecuted && !isExecuting && (
+                          <span className="flex-shrink-0 px-2 py-0.5 text-[10px] font-medium bg-emerald-500/20 text-emerald-400 rounded-full border border-emerald-500/30">
+                            Done
+                          </span>
+                        )}
+                      </div>
                       {isExecuting ? (
                         <p className="text-sm text-blue-400 mt-1 flex items-center gap-2 animate-pulse">
                           <span>Executing</span>
