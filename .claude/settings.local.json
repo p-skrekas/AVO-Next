@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(python:*)",
+      "Bash(curl:*)",
+      "WebSearch",
+      "WebFetch(domain:docs.cloud.google.com)",
+      "Bash(npx shadcn@latest add:*)",
+      "Bash(del:*)",
+      "mcp__ide__getDiagnostics"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

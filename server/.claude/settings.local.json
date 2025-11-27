@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "mcp__ide__getDiagnostics",
+      "WebSearch",
+      "WebFetch(domain:docs.cloud.google.com)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

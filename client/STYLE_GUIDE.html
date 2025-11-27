@@ -1,0 +1,1883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AVO_NEXT Style Guide</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0a0a0b;
+      color: #fafafa;
+      line-height: 1.6;
+      padding: 40px;
+    }
+
+    h1 {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, #fafafa 0%, #a1a1aa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      color: #71717a;
+      font-size: 16px;
+      margin-bottom: 48px;
+    }
+
+    h2 {
+      font-size: 24px;
+      font-weight: 600;
+      margin: 48px 0 24px 0;
+      color: #fafafa;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #2a2a2e;
+    }
+
+    h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin: 32px 0 16px 0;
+      color: #a1a1aa;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Color Tiles */
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .color-tile {
+      border-radius: 12px;
+      overflow: hidden;
+      background: #121214;
+      border: 1px solid #2a2a2e;
+    }
+
+    .color-swatch {
+      height: 100px;
+      display: flex;
+      align-items: flex-end;
+      padding: 12px;
+    }
+
+    .color-info {
+      padding: 12px;
+    }
+
+    .color-name {
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+
+    .color-value {
+      font-size: 12px;
+      color: #71717a;
+      font-family: 'SF Mono', Monaco, monospace;
+    }
+
+    /* Gradient Tiles */
+    .gradient-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .gradient-tile {
+      border-radius: 12px;
+      overflow: hidden;
+      background: #121214;
+      border: 1px solid #2a2a2e;
+    }
+
+    .gradient-swatch {
+      height: 120px;
+      display: flex;
+      align-items: flex-end;
+      padding: 16px;
+    }
+
+    .gradient-info {
+      padding: 16px;
+    }
+
+    .gradient-name {
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .gradient-value {
+      font-size: 11px;
+      color: #71717a;
+      font-family: 'SF Mono', Monaco, monospace;
+      word-break: break-all;
+      line-height: 1.4;
+    }
+
+    /* Button Examples */
+    .button-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      font-size: 14px;
+      font-weight: 500;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      transition: all 200ms ease;
+      font-family: inherit;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
+      color: white;
+      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #818cf8 0%, #a78bfa 50%, #c084fc 100%);
+      box-shadow: 0 4px 20px rgba(99, 102, 241, 0.5);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: #27272a;
+      color: #fafafa;
+      border: 1px solid #3f3f46;
+    }
+
+    .btn-secondary:hover {
+      background: #3f3f46;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: #a1a1aa;
+    }
+
+    .btn-ghost:hover {
+      background: #27272a;
+      color: #fafafa;
+    }
+
+    .btn-danger {
+      background: linear-gradient(135deg, #ef4444 0%, #f43f5e 100%);
+      color: white;
+      box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+    }
+
+    .btn-danger:hover {
+      box-shadow: 0 4px 20px rgba(239, 68, 68, 0.5);
+      transform: translateY(-1px);
+    }
+
+    .btn-success {
+      background: linear-gradient(135deg, #22c55e 0%, #10b981 100%);
+      color: white;
+      box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: #a1a1aa;
+      border: 1px solid #3f3f46;
+    }
+
+    .btn-outline:hover {
+      border-color: #6366f1;
+      color: #6366f1;
+    }
+
+    /* Card Examples */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+
+    .card {
+      background: #121214;
+      border: 1px solid #2a2a2e;
+      border-radius: 12px;
+      padding: 24px;
+    }
+
+    .card-gradient-border {
+      position: relative;
+      padding: 1px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #6366f1, #a855f7);
+      border: none;
+    }
+
+    .card-gradient-border .card-inner {
+      background: #121214;
+      border-radius: 11px;
+      padding: 24px;
+    }
+
+    .card-elevated {
+      background: #1a1a1d;
+      border: 1px solid #3f3f46;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+    }
+
+    .card-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .card-description {
+      font-size: 14px;
+      color: #a1a1aa;
+    }
+
+    /* Badge Examples */
+    .badge-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+
+    .badge {
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 500;
+      border-radius: 9999px;
+    }
+
+    .badge-success {
+      background: rgba(34, 197, 94, 0.2);
+      color: #4ade80;
+      border: 1px solid rgba(34, 197, 94, 0.3);
+    }
+
+    .badge-warning {
+      background: rgba(245, 158, 11, 0.2);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+
+    .badge-error {
+      background: rgba(239, 68, 68, 0.2);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
+    .badge-info {
+      background: rgba(59, 130, 246, 0.2);
+      color: #60a5fa;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+    }
+
+    .badge-neutral {
+      background: rgba(161, 161, 170, 0.2);
+      color: #a1a1aa;
+      border: 1px solid rgba(161, 161, 170, 0.3);
+    }
+
+    /* Input Examples */
+    .input-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .input-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .input-label {
+      font-size: 14px;
+      font-weight: 500;
+      color: #a1a1aa;
+    }
+
+    .input {
+      padding: 12px 16px;
+      font-size: 14px;
+      background: #121214;
+      border: 1px solid #2a2a2e;
+      border-radius: 8px;
+      color: #fafafa;
+      font-family: inherit;
+      transition: all 200ms ease;
+    }
+
+    .input:focus {
+      outline: none;
+      border-color: #6366f1;
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+    }
+
+    .input::placeholder {
+      color: #52525b;
+    }
+
+    /* Sidebar Preview */
+    .sidebar-preview {
+      width: 240px;
+      background: #09090b;
+      border: 1px solid #2a2a2e;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 32px;
+    }
+
+    .sidebar-header {
+      padding: 12px;
+      border-bottom: 1px solid #27272a;
+      margin-bottom: 12px;
+    }
+
+    .sidebar-title {
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .sidebar-subtitle {
+      font-size: 12px;
+      color: #71717a;
+    }
+
+    .sidebar-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .sidebar-item {
+      padding: 10px 12px;
+      font-size: 14px;
+      color: #71717a;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 200ms ease;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .sidebar-item:hover {
+      background: #27272a;
+      color: #fafafa;
+    }
+
+    .sidebar-item.active {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(168, 85, 247, 0.2));
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      color: #fafafa;
+    }
+
+    .sidebar-icon {
+      width: 16px;
+      height: 16px;
+      background: currentColor;
+      border-radius: 3px;
+      opacity: 0.7;
+    }
+
+    /* Typography Preview */
+    .typography-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .typography-item {
+      display: flex;
+      align-items: baseline;
+      gap: 24px;
+    }
+
+    .typography-label {
+      width: 80px;
+      font-size: 12px;
+      color: #71717a;
+      font-family: 'SF Mono', Monaco, monospace;
+    }
+
+    .text-3xl { font-size: 30px; font-weight: 700; }
+    .text-2xl { font-size: 24px; font-weight: 600; }
+    .text-xl { font-size: 20px; font-weight: 600; }
+    .text-lg { font-size: 18px; }
+    .text-base { font-size: 16px; }
+    .text-sm { font-size: 14px; color: #a1a1aa; }
+    .text-xs { font-size: 12px; color: #71717a; }
+
+    /* Shadow Examples */
+    .shadow-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+
+    .shadow-tile {
+      height: 100px;
+      background: #1a1a1d;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: #71717a;
+    }
+
+    .shadow-sm { box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.4); }
+    .shadow-md { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4); }
+    .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4); }
+    .shadow-xl { box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5); }
+    .shadow-glow-primary { box-shadow: 0 0 30px rgba(99, 102, 241, 0.5); }
+    .shadow-glow-success { box-shadow: 0 0 30px rgba(34, 197, 94, 0.5); }
+  </style>
+</head>
+<body>
+
+  <h1>AVO_NEXT Style Guide</h1>
+  <p class="subtitle">Dark theme design system with gradient accents</p>
+
+  <!-- Base Colors -->
+  <h2>Base Colors</h2>
+  <h3>Backgrounds</h3>
+  <div class="color-grid">
+    <div class="color-tile">
+      <div class="color-swatch" style="background: #0a0a0b;"></div>
+      <div class="color-info">
+        <div class="color-name">Background</div>
+        <div class="color-value">#0a0a0b</div>
+      </div>
+    </div>
+    <div class="color-tile">
+      <div class="color-swatch" style="background: #121214;"></div>
+      <div class="color-info">
+        <div class="color-name">Surface</div>
+        <div class="color-value">#121214</div>
+      </div>
+    </div>
+    <div class="color-tile">
+      <div class="color-swatch" style="background: #1a1a1d;"></div>
+      <div class="color-info">
+        <div class="color-name">Surface Elevated</div>
+        <div class="color-value">#1a1a1d</div>
+      </div>
+    </div>
+    <div class="color-tile">
+      <div class="color-swatch" style="background: #27272a;"></div>
+      <div class="color-info">
+        <div class="color-name">Surface Hover</div>
+        <div class="color-value">#27272a</div>
+      </div>
+    </div>
+    <div class="color-tile">
+      <div class="color-swatch" style="background: #2a2a2e;"></div>
+      <div class="color-info">
+        <div class="color-name">Border</div>
+        <div class="color-value">#2a2a2e</div>
+      </div>
+    </div>
+    <div class="color-tile">
+      <div class="color-swatch" style="background: #3f3f46;"></div>
+      <div class="color-info">
+        <div class="color-name">Border Strong</div>
+        <div class="color-value">#3f3f46</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>Text Colors</h3>
+  <div class="color-grid">
+    <div class="color-tile">
+      <div class="color-swatch" style="background: #18181b;"><span style="color: #fafafa; font-weight: 600;">Aa</span></div>
+      <div class="color-info">
+        <div class="color-name">Text Primary</div>
+        <div class="color-value">#fafafa</div>
+      </div>
+    </div>
+    <div class="color-tile">
+      <div class="color-swatch" style="background: #18181b;"><span style="color: #a1a1aa; font-weight: 500;">Aa</span></div>
+      <div class="color-info">
+        <div class="color-name">Text Secondary</div>
+        <div class="color-value">#a1a1aa</div>
+      </div>
+    </div>
+    <div class="color-tile">
+      <div class="color-swatch" style="background: #18181b;"><span style="color: #71717a;">Aa</span></div>
+      <div class="color-info">
+        <div class="color-name">Text Muted</div>
+        <div class="color-value">#71717a</div>
+      </div>
+    </div>
+    <div class="color-tile">
+      <div class="color-swatch" style="background: #18181b;"><span style="color: #52525b;">Aa</span></div>
+      <div class="color-info">
+        <div class="color-name">Text Disabled</div>
+        <div class="color-value">#52525b</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>Accent Colors</h3>
+  <div class="color-grid">
+    <div class="color-tile">
+      <div class="color-swatch" style="background: #6366f1;"></div>
+      <div class="color-info">
+        <div class="color-name">Primary</div>
+        <div class="color-value">#6366f1</div>
+      </div>
+    </div>
+    <div class="color-tile">
+      <div class="color-swatch" style="background: #818cf8;"></div>
+      <div class="color-info">
+        <div class="color-name">Primary Light</div>
+        <div class="color-value">#818cf8</div>
+      </div>
+    </div>
+    <div class="color-tile">
+      <div class="color-swatch" style="background: #4f46e5;"></div>
+      <div class="color-info">
+        <div class="color-name">Primary Dark</div>
+        <div class="color-value">#4f46e5</div>
+      </div>
+    </div>
+    <div class="color-tile">
+      <div class="color-swatch" style="background: #8b5cf6;"></div>
+      <div class="color-info">
+        <div class="color-name">Purple</div>
+        <div class="color-value">#8b5cf6</div>
+      </div>
+    </div>
+    <div class="color-tile">
+      <div class="color-swatch" style="background: #a855f7;"></div>
+      <div class="color-info">
+        <div class="color-name">Purple Light</div>
+        <div class="color-value">#a855f7</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>Semantic Colors</h3>
+  <div class="color-grid">
+    <div class="color-tile">
+      <div class="color-swatch" style="background: #22c55e;"></div>
+      <div class="color-info">
+        <div class="color-name">Success</div>
+        <div class="color-value">#22c55e</div>
+      </div>
+    </div>
+    <div class="color-tile">
+      <div class="color-swatch" style="background: #f59e0b;"></div>
+      <div class="color-info">
+        <div class="color-name">Warning</div>
+        <div class="color-value">#f59e0b</div>
+      </div>
+    </div>
+    <div class="color-tile">
+      <div class="color-swatch" style="background: #ef4444;"></div>
+      <div class="color-info">
+        <div class="color-name">Error</div>
+        <div class="color-value">#ef4444</div>
+      </div>
+    </div>
+    <div class="color-tile">
+      <div class="color-swatch" style="background: #3b82f6;"></div>
+      <div class="color-info">
+        <div class="color-name">Info</div>
+        <div class="color-value">#3b82f6</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gradients -->
+  <h2>Gradients</h2>
+  <div class="gradient-grid">
+    <div class="gradient-tile">
+      <div class="gradient-swatch" style="background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);"></div>
+      <div class="gradient-info">
+        <div class="gradient-name">Primary Gradient</div>
+        <div class="gradient-value">linear-gradient(135deg, #6366f1, #8b5cf6, #a855f7)</div>
+      </div>
+    </div>
+    <div class="gradient-tile">
+      <div class="gradient-swatch" style="background: linear-gradient(135deg, #818cf8 0%, #a78bfa 50%, #c084fc 100%);"></div>
+      <div class="gradient-info">
+        <div class="gradient-name">Primary Hover</div>
+        <div class="gradient-value">linear-gradient(135deg, #818cf8, #a78bfa, #c084fc)</div>
+      </div>
+    </div>
+    <div class="gradient-tile">
+      <div class="gradient-swatch" style="background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);"></div>
+      <div class="gradient-info">
+        <div class="gradient-name">Secondary Gradient</div>
+        <div class="gradient-value">linear-gradient(135deg, #3b82f6, #06b6d4)</div>
+      </div>
+    </div>
+    <div class="gradient-tile">
+      <div class="gradient-swatch" style="background: linear-gradient(135deg, #22c55e 0%, #10b981 100%);"></div>
+      <div class="gradient-info">
+        <div class="gradient-name">Success Gradient</div>
+        <div class="gradient-value">linear-gradient(135deg, #22c55e, #10b981)</div>
+      </div>
+    </div>
+    <div class="gradient-tile">
+      <div class="gradient-swatch" style="background: linear-gradient(135deg, #ef4444 0%, #f43f5e 100%);"></div>
+      <div class="gradient-info">
+        <div class="gradient-name">Danger Gradient</div>
+        <div class="gradient-value">linear-gradient(135deg, #ef4444, #f43f5e)</div>
+      </div>
+    </div>
+    <div class="gradient-tile">
+      <div class="gradient-swatch" style="background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);"></div>
+      <div class="gradient-info">
+        <div class="gradient-name">Warning Gradient</div>
+        <div class="gradient-value">linear-gradient(135deg, #f59e0b, #f97316)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Typography -->
+  <h2>Typography</h2>
+  <div class="typography-grid">
+    <div class="typography-item">
+      <span class="typography-label">3xl / 30px</span>
+      <span class="text-3xl">The quick brown fox</span>
+    </div>
+    <div class="typography-item">
+      <span class="typography-label">2xl / 24px</span>
+      <span class="text-2xl">The quick brown fox</span>
+    </div>
+    <div class="typography-item">
+      <span class="typography-label">xl / 20px</span>
+      <span class="text-xl">The quick brown fox</span>
+    </div>
+    <div class="typography-item">
+      <span class="typography-label">lg / 18px</span>
+      <span class="text-lg">The quick brown fox</span>
+    </div>
+    <div class="typography-item">
+      <span class="typography-label">base / 16px</span>
+      <span class="text-base">The quick brown fox</span>
+    </div>
+    <div class="typography-item">
+      <span class="typography-label">sm / 14px</span>
+      <span class="text-sm">The quick brown fox</span>
+    </div>
+    <div class="typography-item">
+      <span class="typography-label">xs / 12px</span>
+      <span class="text-xs">The quick brown fox</span>
+    </div>
+  </div>
+
+  <!-- Buttons -->
+  <h2>Buttons</h2>
+  <div class="button-grid">
+    <button class="btn btn-primary">Primary</button>
+    <button class="btn btn-secondary">Secondary</button>
+    <button class="btn btn-ghost">Ghost</button>
+    <button class="btn btn-outline">Outline</button>
+    <button class="btn btn-danger">Danger</button>
+    <button class="btn btn-success">Success</button>
+  </div>
+
+  <!-- Badges -->
+  <h2>Badges</h2>
+  <div class="badge-grid">
+    <span class="badge badge-success">Success</span>
+    <span class="badge badge-warning">Warning</span>
+    <span class="badge badge-error">Error</span>
+    <span class="badge badge-info">Info</span>
+    <span class="badge badge-neutral">Neutral</span>
+  </div>
+
+  <!-- Cards -->
+  <h2>Cards</h2>
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-title">Standard Card</div>
+      <div class="card-description">A basic card with border and subtle background for content grouping.</div>
+    </div>
+    <div class="card-gradient-border">
+      <div class="card-inner">
+        <div class="card-title">Gradient Border</div>
+        <div class="card-description">Premium card with gradient border for highlighted content.</div>
+      </div>
+    </div>
+    <div class="card card-elevated">
+      <div class="card-title">Elevated Card</div>
+      <div class="card-description">Card with stronger shadow for modals and popovers.</div>
+    </div>
+  </div>
+
+  <!-- Inputs -->
+  <h2>Inputs</h2>
+  <div class="input-grid">
+    <div class="input-wrapper">
+      <label class="input-label">Text Input</label>
+      <input type="text" class="input" placeholder="Enter text...">
+    </div>
+    <div class="input-wrapper">
+      <label class="input-label">Email Input</label>
+      <input type="email" class="input" placeholder="email@example.com">
+    </div>
+    <div class="input-wrapper">
+      <label class="input-label">Disabled Input</label>
+      <input type="text" class="input" placeholder="Disabled" disabled style="opacity: 0.5; cursor: not-allowed;">
+    </div>
+  </div>
+
+  <!-- Sidebar -->
+  <h2>Sidebar Navigation</h2>
+  <div class="sidebar-preview">
+    <div class="sidebar-header">
+      <div class="sidebar-title">AVO_NEXT</div>
+      <div class="sidebar-subtitle">Voice Ordering Test</div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-item active">
+        <div class="sidebar-icon"></div>
+        Scenarios
+      </div>
+      <div class="sidebar-item">
+        <div class="sidebar-icon"></div>
+        Products
+      </div>
+      <div class="sidebar-item">
+        <div class="sidebar-icon"></div>
+        Settings
+      </div>
+    </nav>
+  </div>
+
+  <!-- Shadows -->
+  <h2>Shadows</h2>
+  <div class="shadow-grid">
+    <div class="shadow-tile shadow-sm">Shadow SM</div>
+    <div class="shadow-tile shadow-md">Shadow MD</div>
+    <div class="shadow-tile shadow-lg">Shadow LG</div>
+    <div class="shadow-tile shadow-xl">Shadow XL</div>
+    <div class="shadow-tile shadow-glow-primary">Glow Primary</div>
+    <div class="shadow-tile shadow-glow-success">Glow Success</div>
+  </div>
+
+  <!-- Hover Card Animations -->
+  <h2>Hover Card Animations</h2>
+
+  <h3>Lift & Glow Effects</h3>
+  <div class="hover-cards-grid">
+    <div class="hover-card hover-lift">
+      <div class="hover-card-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+        </svg>
+      </div>
+      <h4 class="hover-card-title">Lift Effect</h4>
+      <p class="hover-card-desc">Card lifts up with enhanced shadow on hover</p>
+    </div>
+
+    <div class="hover-card hover-glow">
+      <div class="hover-card-icon purple">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M12 6v6l4 2"/>
+        </svg>
+      </div>
+      <h4 class="hover-card-title">Glow Effect</h4>
+      <p class="hover-card-desc">Subtle glow appears around the card</p>
+    </div>
+
+    <div class="hover-card hover-border-glow">
+      <div class="hover-card-icon green">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+          <polyline points="22 4 12 14.01 9 11.01"/>
+        </svg>
+      </div>
+      <h4 class="hover-card-title">Border Glow</h4>
+      <p class="hover-card-desc">Border illuminates with gradient color</p>
+    </div>
+
+    <div class="hover-card hover-scale">
+      <div class="hover-card-icon orange">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+        </svg>
+      </div>
+      <h4 class="hover-card-title">Scale Effect</h4>
+      <p class="hover-card-desc">Card scales up slightly on hover</p>
+    </div>
+  </div>
+
+  <h3>Interactive Feature Cards</h3>
+  <div class="hover-cards-grid">
+    <div class="feature-card">
+      <div class="feature-card-shine"></div>
+      <div class="feature-card-content">
+        <div class="feature-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+            <line x1="3" y1="9" x2="21" y2="9"/>
+            <line x1="9" y1="21" x2="9" y2="9"/>
+          </svg>
+        </div>
+        <h4 class="feature-title">Shine Effect</h4>
+        <p class="feature-desc">A light sweep animates across the card on hover, creating a polished look.</p>
+        <a href="#" class="feature-link">Learn more →</a>
+      </div>
+    </div>
+
+    <div class="feature-card gradient-shift">
+      <div class="feature-card-content">
+        <div class="feature-icon pink">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+            <line x1="12" y1="22.08" x2="12" y2="12"/>
+          </svg>
+        </div>
+        <h4 class="feature-title">Gradient Shift</h4>
+        <p class="feature-desc">Background gradient smoothly transitions to a new color scheme.</p>
+        <a href="#" class="feature-link">Learn more →</a>
+      </div>
+    </div>
+
+    <div class="feature-card tilt-card" data-tilt>
+      <div class="feature-card-content">
+        <div class="feature-icon cyan">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+        </div>
+        <h4 class="feature-title">3D Tilt</h4>
+        <p class="feature-desc">Card tilts in 3D space following the cursor position.</p>
+        <a href="#" class="feature-link">Learn more →</a>
+      </div>
+    </div>
+
+    <div class="feature-card reveal-card">
+      <div class="feature-card-content">
+        <div class="feature-icon yellow">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/>
+          </svg>
+        </div>
+        <h4 class="feature-title">Reveal Button</h4>
+        <p class="feature-desc">Hidden action button slides into view on hover.</p>
+        <div class="reveal-button">
+          <button class="btn btn-primary btn-sm">Get Started</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h3>Animated Border Cards</h3>
+  <div class="hover-cards-grid">
+    <div class="border-animate-card">
+      <div class="border-animate-inner">
+        <h4 class="hover-card-title">Rotating Border</h4>
+        <p class="hover-card-desc">Gradient border rotates around the card continuously on hover</p>
+      </div>
+    </div>
+
+    <div class="pulse-border-card">
+      <h4 class="hover-card-title">Pulse Border</h4>
+      <p class="hover-card-desc">Border pulses with a breathing animation effect</p>
+    </div>
+
+    <div class="corner-accent-card">
+      <div class="corner corner-tl"></div>
+      <div class="corner corner-br"></div>
+      <h4 class="hover-card-title">Corner Accents</h4>
+      <p class="hover-card-desc">Corner decorations expand on hover</p>
+    </div>
+
+    <div class="underline-card">
+      <div class="underline-indicator"></div>
+      <h4 class="hover-card-title">Underline Reveal</h4>
+      <p class="hover-card-desc">Animated underline expands from center</p>
+    </div>
+  </div>
+
+  <h3>Icon Animation Cards</h3>
+  <div class="hover-cards-grid small">
+    <div class="icon-card">
+      <div class="icon-wrapper bounce">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+        </svg>
+      </div>
+      <span class="icon-label">Bounce</span>
+    </div>
+
+    <div class="icon-card">
+      <div class="icon-wrapper spin">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+      </div>
+      <span class="icon-label">Spin</span>
+    </div>
+
+    <div class="icon-card">
+      <div class="icon-wrapper shake">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+        </svg>
+      </div>
+      <span class="icon-label">Shake</span>
+    </div>
+
+    <div class="icon-card">
+      <div class="icon-wrapper pulse">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+        </svg>
+      </div>
+      <span class="icon-label">Pulse</span>
+    </div>
+
+    <div class="icon-card">
+      <div class="icon-wrapper flip">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+          <line x1="8" y1="21" x2="16" y2="21"/>
+          <line x1="12" y1="17" x2="12" y2="21"/>
+        </svg>
+      </div>
+      <span class="icon-label">Flip</span>
+    </div>
+
+    <div class="icon-card">
+      <div class="icon-wrapper float">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+      </div>
+      <span class="icon-label">Float</span>
+    </div>
+  </div>
+
+  <style>
+    /* Hover Cards Grid */
+    .hover-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+
+    .hover-cards-grid.small {
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    }
+
+    /* Base Hover Card */
+    .hover-card {
+      background: #121214;
+      border: 1px solid #2a2a2e;
+      border-radius: 16px;
+      padding: 28px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .hover-card-icon {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      margin-bottom: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .hover-card-icon.purple { background: linear-gradient(135deg, #8b5cf6, #a855f7); }
+    .hover-card-icon.green { background: linear-gradient(135deg, #22c55e, #10b981); }
+    .hover-card-icon.orange { background: linear-gradient(135deg, #f59e0b, #f97316); }
+
+    .hover-card-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #fafafa;
+      margin-bottom: 8px;
+    }
+
+    .hover-card-desc {
+      font-size: 14px;
+      color: #71717a;
+      line-height: 1.6;
+    }
+
+    /* Lift Effect */
+    .hover-lift:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.5);
+      border-color: #3f3f46;
+    }
+
+    .hover-lift:hover .hover-card-icon {
+      transform: scale(1.1);
+    }
+
+    /* Glow Effect */
+    .hover-glow:hover {
+      box-shadow: 0 0 40px rgba(139, 92, 246, 0.3), 0 0 80px rgba(139, 92, 246, 0.1);
+      border-color: rgba(139, 92, 246, 0.5);
+    }
+
+    /* Border Glow */
+    .hover-border-glow {
+      position: relative;
+    }
+
+    .hover-border-glow::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 17px;
+      background: linear-gradient(135deg, #22c55e, #10b981, #06b6d4);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: -1;
+    }
+
+    .hover-border-glow:hover::before {
+      opacity: 1;
+    }
+
+    .hover-border-glow:hover {
+      border-color: transparent;
+      box-shadow: 0 0 30px rgba(34, 197, 94, 0.2);
+    }
+
+    /* Scale Effect */
+    .hover-scale:hover {
+      transform: scale(1.03);
+      border-color: #3f3f46;
+    }
+
+    .hover-scale:hover .hover-card-icon {
+      transform: rotate(-5deg);
+    }
+
+    /* Feature Cards */
+    .feature-card {
+      background: #121214;
+      border: 1px solid #2a2a2e;
+      border-radius: 16px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .feature-card-content {
+      padding: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .feature-icon {
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.2));
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #818cf8;
+      margin-bottom: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .feature-icon.pink {
+      background: linear-gradient(135deg, rgba(236, 72, 153, 0.2), rgba(168, 85, 247, 0.2));
+      border-color: rgba(236, 72, 153, 0.3);
+      color: #f472b6;
+    }
+
+    .feature-icon.cyan {
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(59, 130, 246, 0.2));
+      border-color: rgba(6, 182, 212, 0.3);
+      color: #22d3ee;
+    }
+
+    .feature-icon.yellow {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(249, 115, 22, 0.2));
+      border-color: rgba(245, 158, 11, 0.3);
+      color: #fbbf24;
+    }
+
+    .feature-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: #fafafa;
+      margin-bottom: 12px;
+    }
+
+    .feature-desc {
+      font-size: 14px;
+      color: #71717a;
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    .feature-link {
+      font-size: 14px;
+      font-weight: 500;
+      color: #818cf8;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .feature-link:hover {
+      color: #a78bfa;
+    }
+
+    /* Shine Effect */
+    .feature-card-shine {
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .feature-card:hover .feature-card-shine {
+      left: 100%;
+    }
+
+    .feature-card:hover {
+      border-color: #3f3f46;
+    }
+
+    .feature-card:hover .feature-icon {
+      transform: scale(1.1);
+    }
+
+    /* Gradient Shift */
+    .gradient-shift::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(236, 72, 153, 0.1), rgba(168, 85, 247, 0.1));
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .gradient-shift:hover::before {
+      opacity: 1;
+    }
+
+    /* 3D Tilt Card */
+    .tilt-card {
+      transform-style: preserve-3d;
+      perspective: 1000px;
+    }
+
+    .tilt-card:hover {
+      transform: rotateY(-5deg) rotateX(5deg);
+      box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Reveal Button */
+    .reveal-button {
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+
+    .reveal-card:hover .reveal-button {
+      max-height: 50px;
+      opacity: 1;
+      margin-top: 16px;
+    }
+
+    .btn-sm {
+      padding: 10px 20px;
+      font-size: 13px;
+    }
+
+    /* Border Animate Card */
+    .border-animate-card {
+      position: relative;
+      padding: 2px;
+      border-radius: 16px;
+      background: #2a2a2e;
+      overflow: hidden;
+    }
+
+    .border-animate-card::before {
+      content: '';
+      position: absolute;
+      inset: -50%;
+      background: conic-gradient(from 0deg, #6366f1, #8b5cf6, #a855f7, #ec4899, #6366f1);
+      animation: none;
+    }
+
+    .border-animate-card:hover::before {
+      animation: rotate 3s linear infinite;
+    }
+
+    .border-animate-inner {
+      background: #121214;
+      border-radius: 14px;
+      padding: 28px;
+      position: relative;
+      z-index: 1;
+    }
+
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* Pulse Border Card */
+    .pulse-border-card {
+      background: #121214;
+      border: 1px solid #2a2a2e;
+      border-radius: 16px;
+      padding: 28px;
+      transition: all 0.3s ease;
+    }
+
+    .pulse-border-card:hover {
+      animation: pulse-border 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse-border {
+      0%, 100% {
+        border-color: #6366f1;
+        box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4);
+      }
+      50% {
+        border-color: #a855f7;
+        box-shadow: 0 0 0 8px rgba(99, 102, 241, 0);
+      }
+    }
+
+    /* Corner Accent Card */
+    .corner-accent-card {
+      background: #121214;
+      border: 1px solid #2a2a2e;
+      border-radius: 16px;
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .corner {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .corner-tl {
+      top: -1px;
+      left: -1px;
+      border-top: 2px solid #6366f1;
+      border-left: 2px solid #6366f1;
+      border-radius: 16px 0 0 0;
+    }
+
+    .corner-br {
+      bottom: -1px;
+      right: -1px;
+      border-bottom: 2px solid #a855f7;
+      border-right: 2px solid #a855f7;
+      border-radius: 0 0 16px 0;
+    }
+
+    .corner-accent-card:hover .corner {
+      width: 40px;
+      height: 40px;
+    }
+
+    .corner-accent-card:hover {
+      border-color: #3f3f46;
+    }
+
+    /* Underline Card */
+    .underline-card {
+      background: #121214;
+      border: 1px solid #2a2a2e;
+      border-radius: 16px;
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .underline-indicator {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #6366f1, #a855f7);
+      border-radius: 3px 3px 0 0;
+      transition: width 0.3s ease;
+    }
+
+    .underline-card:hover .underline-indicator {
+      width: 60%;
+    }
+
+    .underline-card:hover {
+      border-color: #3f3f46;
+    }
+
+    /* Icon Cards */
+    .icon-card {
+      background: #121214;
+      border: 1px solid #2a2a2e;
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .icon-card:hover {
+      border-color: #3f3f46;
+      background: #1a1a1d;
+    }
+
+    .icon-wrapper {
+      width: 64px;
+      height: 64px;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(139, 92, 246, 0.15));
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #818cf8;
+      margin-bottom: 12px;
+    }
+
+    .icon-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: #71717a;
+    }
+
+    /* Icon Animations */
+    .icon-card:hover .bounce {
+      animation: bounce 0.6s ease;
+    }
+
+    .icon-card:hover .spin {
+      animation: spin 0.8s ease;
+    }
+
+    .icon-card:hover .shake {
+      animation: shake 0.5s ease;
+    }
+
+    .icon-card:hover .pulse {
+      animation: icon-pulse 0.6s ease;
+    }
+
+    .icon-card:hover .flip {
+      animation: flip 0.6s ease;
+    }
+
+    .icon-card:hover .float {
+      animation: float 1s ease infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      25% { transform: translateY(-12px); }
+      50% { transform: translateY(0); }
+      75% { transform: translateY(-6px); }
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-6px); }
+      40% { transform: translateX(6px); }
+      60% { transform: translateX(-4px); }
+      80% { transform: translateX(4px); }
+    }
+
+    @keyframes icon-pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+
+    @keyframes flip {
+      0% { transform: perspective(400px) rotateY(0); }
+      100% { transform: perspective(400px) rotateY(360deg); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+  </style>
+
+  <!-- Login Form Examples -->
+  <h2>Login Forms</h2>
+
+  <h3>Standard Login Form</h3>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 32px; margin-bottom: 48px;">
+
+    <!-- Standard Login Card -->
+    <div class="login-card">
+      <div class="login-header">
+        <div class="login-logo">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+            <rect width="40" height="40" rx="8" fill="url(#logoGrad)"/>
+            <path d="M12 20L18 26L28 14" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            <defs>
+              <linearGradient id="logoGrad" x1="0" y1="0" x2="40" y2="40">
+                <stop stop-color="#6366f1"/>
+                <stop offset="1" stop-color="#a855f7"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <h2 class="login-title">Welcome back</h2>
+        <p class="login-subtitle">Sign in to your account to continue</p>
+      </div>
+
+      <form class="login-form">
+        <div class="form-group">
+          <label class="form-label">Email address</label>
+          <input type="email" class="form-input" placeholder="you@example.com">
+        </div>
+
+        <div class="form-group">
+          <div class="form-label-row">
+            <label class="form-label">Password</label>
+            <a href="#" class="form-link">Forgot password?</a>
+          </div>
+          <input type="password" class="form-input" placeholder="Enter your password">
+        </div>
+
+        <div class="form-checkbox">
+          <input type="checkbox" id="remember" class="checkbox-input">
+          <label for="remember" class="checkbox-label">Remember me for 30 days</label>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-full">Sign in</button>
+
+        <div class="divider">
+          <span class="divider-text">or continue with</span>
+        </div>
+
+        <div class="social-buttons">
+          <button type="button" class="btn btn-social">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+              <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+              <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+              <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+            </svg>
+            Google
+          </button>
+          <button type="button" class="btn btn-social">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+            GitHub
+          </button>
+        </div>
+      </form>
+
+      <div class="login-footer">
+        Don't have an account? <a href="#" class="form-link">Sign up</a>
+      </div>
+    </div>
+
+    <!-- Gradient Border Login Card -->
+    <div class="login-card-gradient">
+      <div class="login-card-inner">
+        <div class="login-header">
+          <h2 class="login-title" style="background: linear-gradient(135deg, #fafafa 0%, #a1a1aa 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Create an account</h2>
+          <p class="login-subtitle">Start your 14-day free trial</p>
+        </div>
+
+        <form class="login-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">First name</label>
+              <input type="text" class="form-input" placeholder="John">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Last name</label>
+              <input type="text" class="form-input" placeholder="Doe">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Email address</label>
+            <input type="email" class="form-input" placeholder="john@example.com">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <input type="password" class="form-input" placeholder="Create a strong password">
+            <p class="form-hint">Must be at least 8 characters</p>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-full">Create account</button>
+
+          <p class="terms-text">
+            By signing up, you agree to our <a href="#" class="form-link">Terms of Service</a> and <a href="#" class="form-link">Privacy Policy</a>
+          </p>
+        </form>
+
+        <div class="login-footer">
+          Already have an account? <a href="#" class="form-link">Sign in</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h3>Compact Login Form (Modal Style)</h3>
+  <div style="max-width: 380px; margin-bottom: 48px;">
+    <div class="login-modal">
+      <div class="login-modal-header">
+        <h3 class="login-modal-title">Sign in</h3>
+        <button class="close-btn">&times;</button>
+      </div>
+
+      <form class="login-form compact">
+        <div class="form-group">
+          <input type="email" class="form-input" placeholder="Email">
+        </div>
+        <div class="form-group">
+          <input type="password" class="form-input" placeholder="Password">
+        </div>
+        <button type="submit" class="btn btn-primary btn-full">Continue</button>
+      </form>
+
+      <div class="login-modal-footer">
+        <a href="#" class="form-link">Forgot password?</a>
+        <span class="separator">·</span>
+        <a href="#" class="form-link">Create account</a>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    /* Login Form Styles */
+    .login-card {
+      background: #121214;
+      border: 1px solid #2a2a2e;
+      border-radius: 16px;
+      padding: 40px;
+      max-width: 440px;
+    }
+
+    .login-card-gradient {
+      position: relative;
+      padding: 2px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6, #a855f7);
+      max-width: 440px;
+      overflow: hidden;
+    }
+
+    .login-card-inner {
+      background: #121214;
+      border-radius: 15px;
+      padding: 40px;
+    }
+
+    .login-header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .login-logo {
+      display: inline-flex;
+      margin-bottom: 24px;
+    }
+
+    .login-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: #fafafa;
+      margin-bottom: 8px;
+    }
+
+    .login-subtitle {
+      font-size: 14px;
+      color: #71717a;
+    }
+
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .login-form.compact {
+      gap: 12px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .form-label {
+      font-size: 14px;
+      font-weight: 500;
+      color: #a1a1aa;
+    }
+
+    .form-label-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .form-input {
+      padding: 12px 16px;
+      font-size: 14px;
+      background: #0a0a0b;
+      border: 1px solid #2a2a2e;
+      border-radius: 8px;
+      color: #fafafa;
+      font-family: inherit;
+      transition: all 200ms ease;
+    }
+
+    .form-input:hover {
+      border-color: #3f3f46;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: #6366f1;
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+    }
+
+    .form-input::placeholder {
+      color: #52525b;
+    }
+
+    .form-hint {
+      font-size: 12px;
+      color: #52525b;
+    }
+
+    .form-link {
+      font-size: 14px;
+      color: #818cf8;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 200ms ease;
+    }
+
+    .form-link:hover {
+      color: #a78bfa;
+    }
+
+    .form-checkbox {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .checkbox-input {
+      width: 18px;
+      height: 18px;
+      accent-color: #6366f1;
+      cursor: pointer;
+    }
+
+    .checkbox-label {
+      font-size: 14px;
+      color: #a1a1aa;
+      cursor: pointer;
+    }
+
+    .btn-full {
+      width: 100%;
+      padding: 14px 24px;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      color: #52525b;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #2a2a2e;
+    }
+
+    .divider-text {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .social-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .btn-social {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 12px 16px;
+      font-size: 14px;
+      font-weight: 500;
+      background: #1a1a1d;
+      border: 1px solid #2a2a2e;
+      border-radius: 8px;
+      color: #a1a1aa;
+      cursor: pointer;
+      transition: all 200ms ease;
+      font-family: inherit;
+    }
+
+    .btn-social:hover {
+      background: #27272a;
+      border-color: #3f3f46;
+      color: #fafafa;
+    }
+
+    .login-footer {
+      text-align: center;
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid #2a2a2e;
+      font-size: 14px;
+      color: #71717a;
+    }
+
+    .terms-text {
+      font-size: 12px;
+      color: #52525b;
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    /* Modal Style Login */
+    .login-modal {
+      background: #1a1a1d;
+      border: 1px solid #3f3f46;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+    }
+
+    .login-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .login-modal-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #fafafa;
+    }
+
+    .close-btn {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: none;
+      color: #71717a;
+      font-size: 24px;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: all 200ms ease;
+    }
+
+    .close-btn:hover {
+      background: #27272a;
+      color: #fafafa;
+    }
+
+    .login-modal-footer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid #2a2a2e;
+    }
+
+    .separator {
+      color: #52525b;
+    }
+  </style>
+
+</body>
+</html>

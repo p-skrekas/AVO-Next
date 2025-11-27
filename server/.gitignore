@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+*.egg-info/
+dist/
+build/
+
+# Environment variables
+.env
+.env.local
+
+# Google credentials (be specific, not all JSON)
+service-account*.json
+*-credentials.json
+*-key.json
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
